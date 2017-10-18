@@ -169,6 +169,8 @@ void display() {
 
 void init()
 {
+
+	// Testing Git repo update 
 	// Create 3 vertices that make up a triangle that fits on the viewport 
 	GLfloat vertices[] = { 
 		-0.5f, -0.5f, 0.0f,

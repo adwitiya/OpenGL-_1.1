@@ -84,9 +84,9 @@ GLuint CompileShaders()
 
 	// Create two shader objects, one for the vertex, and one for the fragment shader
 	// Vertex Shader 
-	AddShader(shaderProgramID,"../Shaders/simpleVertexShader.vert", GL_VERTEX_SHADER);
+	AddShader(shaderProgramID,"../Assignment1.1/simpleVertexShader.vert", GL_VERTEX_SHADER);
 	// Fragment Shader
-	AddShader(shaderProgramID,"../Shaders/simpleFragmentShader.frag", GL_FRAGMENT_SHADER);
+	AddShader(shaderProgramID,"../Assignment1.1/simpleFragmentShader.frag", GL_FRAGMENT_SHADER);
 
 	GLint Success = 0;
 	GLchar ErrorLog[1024] = { 0 };

@@ -137,7 +137,7 @@ GLuint generateObjectBuffer(GLfloat vertices[], GLfloat colors[]) {
 }
 
 void linkCurrentBuffertoShader(GLuint shaderProgramID) {
-	GLuint numVertices = 4;
+	GLuint numVertices = 3;
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
@@ -167,14 +167,14 @@ void init()
 	// Testing Git repo update 
 	// Create 3 vertices that make up a triangle that fits on the viewport 
 	GLfloat vertices[] = { 
-		-0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f };
+		-0.3f, -0.3f, 0.0f,
+		0.0f, 0.3f, 0.0f,
+		0.3f, -0.3f, 0.0f };
 	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
 	GLfloat colors[] = { 
+		0.0f, 1.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 0.0f, 1.0f, 
+		1.0f, 0.0f, 1.0f, 1.0f, 
 	};
 	// Set up the shaders
 	GLuint shaderProgramID = CompileShaders();

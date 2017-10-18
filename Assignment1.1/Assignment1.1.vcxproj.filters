@@ -27,4 +27,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="simpleFragmentShader.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="simpleVertexShader.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

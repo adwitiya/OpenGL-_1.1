@@ -2,9 +2,12 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <iostream>
+#include <windows.h>
+#include <mmsystem.h>
 #include <fstream>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 #include "maths_funcs.h"
 
 
@@ -14,43 +17,29 @@
 #define _CRT_NONSTDC_NO_WARNINGS
 
 using namespace std;
-// meh
 
-// Vertex Shader (for convenience, it is defined in the main here, but we will be using text files for shaders in future)
 // Note: Input to this shader is the vertex positions that we specified for the triangle. 
 // Note: gl_Position is a special built-in variable that is supposed to contain the vertex position (in X, Y, Z, W)
 // Since our triangle vertices were specified as vec3, we just set W to 1.0.
 
-static const char* pVS = "                                                    \n\
-#version 330                                                                  \n\
-                                                                              \n\
-in vec3 vPosition;														 	  \n\
-in vec4 vColor;																  \n\
-out vec4 color;																 \n\
-                                                                              \n\
-                                                                               \n\
-void main()                                                                     \n\
-{                                                                                \n\
-    gl_Position = vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);  \n\
-	color = vColor;							\n\
-}";
 
-// Fragment Shader
 // Note: no input in this shader, it just outputs the colour of all fragments, in this case set to red (format: R, G, B, A).
-
-
-static const char* pFS = "                                              \n\
-#version 330                                                            \n\
-                                                                        \n\
-out vec4 FragColor;                                                      \n\
-in vec4 color;                                                            \n\
-void main()                                                               \n\
-{                                                                          \n\
-FragColor = color;									 \n\
-}";
-
 // Shader Functions- click on + to expand
 #pragma region SHADER_FUNCTIONS
+// Function to read shader code from external files
+std::string readShaderSource(const std::string& fileName)
+{
+	std::ifstream file(fileName.c_str());
+	if (file.fail()) {
+		cout << "error loading shader called " << fileName;
+		exit(1);
+	}
+	std::stringstream stream;
+	stream << file.rdbuf();
+	file.close();
+
+	return stream.str();
+}
 static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
 {
 	// create a shader object
@@ -60,8 +49,12 @@ static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum Shad
 		fprintf(stderr, "Error creating shader type %d\n", ShaderType);
 		exit(0);
 	}
+	// Read shader data from file using readShaderSource function
+	std::string outShader = readShaderSource(pShaderText);
+	const char* pShaderSource = outShader.c_str();
+
 	// Bind the source code to the shader, this happens before compilation
-	glShaderSource(ShaderObj, 1, (const GLchar**)&pShaderText, NULL);
+	glShaderSource(ShaderObj, 1, (const GLchar**)&pShaderSource, NULL);
 	// compile the shader and check for errors
 	glCompileShader(ShaderObj);
 	GLint success;
@@ -89,11 +82,11 @@ GLuint CompileShaders()
 		exit(1);
 	}
 
-
 	// Create two shader objects, one for the vertex, and one for the fragment shader
-
-	AddShader(shaderProgramID, pVS, GL_VERTEX_SHADER);
-	AddShader(shaderProgramID, pFS, GL_FRAGMENT_SHADER);
+	// Vertex Shader 
+	AddShader(shaderProgramID,"../Shaders/simpleVertexShader.vert", GL_VERTEX_SHADER);
+	// Fragment Shader
+	AddShader(shaderProgramID,"../Shaders/simpleFragmentShader.frag", GL_FRAGMENT_SHADER);
 
 	GLint Success = 0;
 	GLchar ErrorLog[1024] = { 0 };

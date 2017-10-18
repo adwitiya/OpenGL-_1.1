@@ -14,6 +14,7 @@
 #define _CRT_NONSTDC_NO_WARNINGS
 
 using namespace std;
+// meh
 
 // Vertex Shader (for convenience, it is defined in the main here, but we will be using text files for shaders in future)
 // Note: Input to this shader is the vertex positions that we specified for the triangle. 

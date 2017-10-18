@@ -16,6 +16,7 @@
 // Two Transformation Matrix for 2 Triangles 
 mat4 gEnvo = identity_mat4();
 GLuint gEnvoID;
+char keyFunction;
 
 using namespace std;
 
@@ -166,13 +167,13 @@ void display() {
 
 // Method to handle keyboard calls
 void keyPressed(unsigned char key, int x, int y) {
-
+	
 	switch (key)
 	{
 		// Translation
 	case 't':
-		gEnvo = translate(gEnvo, vec3(0.5, 0.5, 0.0));
-		printf("translate");
+		keyFunction = 't';
+		printf("translate activated \n");
 		glutPostRedisplay();
 		break;
 		// Rotate
@@ -182,20 +183,18 @@ void keyPressed(unsigned char key, int x, int y) {
 		glutPostRedisplay();
 		break;
 		// Uniform Scaling
-	case 'u':
-		gEnvo = scale(gEnvo, vec3(0.99, 0.99, 0.99));
-		glutPostRedisplay();
-		printf("uniform");
+	case 's':
+		keyFunction = 's';
+		printf("scale activated\n");
 		break;
 		// Non-uniform Scaling
 	case 'n':
-		printf("non-uniform");
+		printf("non-uniform \n");
 		gEnvo = scale(gEnvo, vec3(0.91, 0.51, 0.31));
 		glutPostRedisplay();
-		printf("uniform");
 		break;
 	case 'c':
-		printf("combined transformation");
+		printf("combined transformation\n");
 		gEnvo = translate(gEnvo, vec3(0.5, 0.5, 0.0));
 		gEnvo = rotate_z_deg(gEnvo, 4);
 		gEnvo = scale(gEnvo, vec3(0.01, 0.01, 0.01));
@@ -206,14 +205,48 @@ void keyPressed(unsigned char key, int x, int y) {
 
 // Method to handle special keys function
 void keySpecial(int keyspecial, int x, int y) {
+	switch (keyFunction) {
 
+	case 't':
 	switch (keyspecial)
 	{
 	case GLUT_KEY_UP:
-		printf("arrow up");
+		gEnvo = translate(gEnvo, vec3(0.0, 0.5, 0.0));
+		printf("moveup\n");
+		glutPostRedisplay();
+		break;
+		
+	case GLUT_KEY_DOWN:
+		gEnvo = translate(gEnvo, vec3(0.0, -0.5, 0.0));
+		printf("movedown\n");
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_RIGHT:
+		gEnvo = translate(gEnvo, vec3(0.5, 0.0, 0.0));
+		printf("moveright\n");
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_LEFT:
+		gEnvo = translate(gEnvo, vec3(-0.5, 0.0, 0.0));
+		printf("moveleft\n");
+		glutPostRedisplay();
 		break;
 	}
-
+	case 's':
+	switch (keyspecial)
+	{
+	case GLUT_KEY_UP:
+		gEnvo = scale(gEnvo, vec3(1.1, 1.1, 1.1));
+		printf("scaleup\n");
+		glutPostRedisplay();
+		break;
+	case GLUT_KEY_DOWN:
+		gEnvo = scale(gEnvo, vec3(0.90, 0.90, 0.90));
+		printf("scaledown\n");
+		glutPostRedisplay();
+		break;
+	}
+	}
 }
 
 void init()
@@ -237,6 +270,7 @@ void init()
 	generateObjectBuffer(vertices, colors);
 	// Link the current buffer to the shader
 	linkCurrentBuffertoShader(shaderProgramID);
+	
 }
 
 int main(int argc, char** argv) {

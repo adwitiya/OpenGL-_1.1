@@ -13,6 +13,10 @@
 // Macro for indexing vertex buffer
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define _CRT_NONSTDC_NO_WARNINGS
+// Two Transformation Matrix for 2 Triangles 
+mat4 gEnvo = identity_mat4();
+mat4 gEnvo_2 = identity_mat4();
+GLuint gEnvoID;
 
 using namespace std;
 
@@ -139,6 +143,8 @@ void linkCurrentBuffertoShader(GLuint shaderProgramID) {
 	// find the location of the variables that we will be using in the shader program
 	GLuint positionID = glGetAttribLocation(shaderProgramID, "vPosition");
 	GLuint colorID = glGetAttribLocation(shaderProgramID, "vColor");
+// Getting the fragment shader ID for our location matrix
+	GLuint gEnvoID = glGetUniformLocation(shaderProgramID, "genvo");
 	// Have to enable this
 	glEnableVertexAttribArray(positionID);
 	// Tell it where to find the position data in the currently active buffer (at index positionID)
@@ -154,6 +160,9 @@ void display() {
 
 	glClear(GL_COLOR_BUFFER_BIT);
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
+	glUniformMatrix4fv(gEnvoID, 1, GL_FALSE, gEnvo.m);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glUniformMatrix4fv(gEnvoID, 1, GL_FALSE, gEnvo_2.m);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glutSwapBuffers();
 }
@@ -165,24 +174,36 @@ void keyPressed(unsigned char key, int x, int y) {
 	{
 		// Translation
 	case 't':
+		gEnvo = translate(gEnvo, vec3(0.5, 0.5, 0.0));
+		//gEnvo_2 = translate(gEnvo_2, vec3(-0.5, 0.5, 0.0));
 		printf("translate");
+		glutPostRedisplay();
 		break;
 		// Rotate
 	case 'r':
-		printf("rotate");
+		gEnvo = rotate_z_deg(gEnvo, 1);
+		printf("rotate \n");
+		glutPostRedisplay();
 		break;
 		// Uniform Scaling
 	case 'u':
+		gEnvo = scale(gEnvo, vec3(0.99, 0.99, 0.99));
+		glutPostRedisplay();
 		printf("uniform");
 		break;
 		// Non-uniform Scaling
 	case 'n':
 		printf("non-uniform");
+		gEnvo = scale(gEnvo, vec3(0.91, 0.51, 0.31));
+		glutPostRedisplay();
+		printf("uniform");
 		break;
 	case 'c':
 		printf("combined transformation");
+		gEnvo = translate(gEnvo, vec3(0.01, 0.01, 0.0));
+		gEnvo = rotate_z_deg(gEnvo, 5);
+		glutPostRedisplay();
 		break;
-
 	}
 }
 

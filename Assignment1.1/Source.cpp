@@ -186,6 +186,18 @@ void keyPressed(unsigned char key, int x, int y) {
 	}
 }
 
+// Method to handle special keys function
+void keySpecial(int keyspecial, int x, int y) {
+
+	switch (keyspecial)
+	{
+	case GLUT_KEY_UP:
+		printf("arrow up");
+		break;
+	}
+
+}
+
 void init()
 {
 
@@ -230,7 +242,7 @@ int main(int argc, char** argv) {
 	init();
 	// Function Call to interpret keyboard calls
 	glutKeyboardFunc(keyPressed);
-	//glutSpecialFunc(keySpecial);
+	glutSpecialFunc(keySpecial);
 	// Begin infinite event loop
 	glutMainLoop();
 	return 0;

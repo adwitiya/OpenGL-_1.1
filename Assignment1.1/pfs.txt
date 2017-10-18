@@ -1,0 +1,8 @@
+#version 330                                                            \n\
+                                                                        \n\
+out vec4 FragColor;                                                      \n\
+in vec4 color;                                                            \n\
+void main()                                                               \n\
+{                                                                          \n\
+FragColor = color;									 \n\
+}

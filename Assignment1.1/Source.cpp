@@ -174,7 +174,7 @@ void init()
 	GLfloat colors[] = { 
 		0.0f, 1.0f, 0.0f, 1.0f,
 		1.0f, 0.0f, 0.0f, 1.0f,
-		1.0f, 0.0f, 1.0f, 1.0f, 
+		0.0f, 0.0f, 1.0f, 1.0f, 
 	};
 	// Set up the shaders
 	GLuint shaderProgramID = CompileShaders();

@@ -10,8 +10,6 @@
 #include <sstream>
 #include "maths_funcs.h"
 
-
-
 // Macro for indexing vertex buffer
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #define _CRT_NONSTDC_NO_WARNINGS
@@ -160,6 +158,33 @@ void display() {
 	glutSwapBuffers();
 }
 
+// Method to handle keyboard calls
+void keyPressed(unsigned char key, int x, int y) {
+
+	switch (key)
+	{
+		// Translation
+	case 't':
+		printf("translate");
+		break;
+		// Rotate
+	case 'r':
+		printf("rotate");
+		break;
+		// Uniform Scaling
+	case 'u':
+		printf("uniform");
+		break;
+		// Non-uniform Scaling
+	case 'n':
+		printf("non-uniform");
+		break;
+	case 'c':
+		printf("combined transformation");
+		break;
+
+	}
+}
 
 void init()
 {
@@ -203,6 +228,9 @@ int main(int argc, char** argv) {
 	}
 	// Set up your objects and shaders
 	init();
+	// Function Call to interpret keyboard calls
+	glutKeyboardFunc(keyPressed);
+	//glutSpecialFunc(keySpecial);
 	// Begin infinite event loop
 	glutMainLoop();
 	return 0;

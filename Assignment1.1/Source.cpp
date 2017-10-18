@@ -15,7 +15,6 @@
 #define _CRT_NONSTDC_NO_WARNINGS
 // Two Transformation Matrix for 2 Triangles 
 mat4 gEnvo = identity_mat4();
-mat4 gEnvo_2 = identity_mat4();
 GLuint gEnvoID;
 
 using namespace std;
@@ -162,8 +161,6 @@ void display() {
 	// NB: Make the call to draw the geometry in the currently activated vertex buffer. This is where the GPU starts to work!
 	glUniformMatrix4fv(gEnvoID, 1, GL_FALSE, gEnvo.m);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glUniformMatrix4fv(gEnvoID, 1, GL_FALSE, gEnvo_2.m);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
 	glutSwapBuffers();
 }
 
@@ -175,7 +172,6 @@ void keyPressed(unsigned char key, int x, int y) {
 		// Translation
 	case 't':
 		gEnvo = translate(gEnvo, vec3(0.5, 0.5, 0.0));
-		//gEnvo_2 = translate(gEnvo_2, vec3(-0.5, 0.5, 0.0));
 		printf("translate");
 		glutPostRedisplay();
 		break;
@@ -200,10 +196,11 @@ void keyPressed(unsigned char key, int x, int y) {
 		break;
 	case 'c':
 		printf("combined transformation");
-		gEnvo = translate(gEnvo, vec3(0.01, 0.01, 0.0));
-		gEnvo = rotate_z_deg(gEnvo, 5);
+		gEnvo = translate(gEnvo, vec3(0.5, 0.5, 0.0));
+		gEnvo = rotate_z_deg(gEnvo, 4);
+		gEnvo = scale(gEnvo, vec3(0.01, 0.01, 0.01));
 		glutPostRedisplay();
-		break;
+		break; 
 	}
 }
 
